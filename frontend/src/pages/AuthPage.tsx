@@ -1,7 +1,12 @@
 import { Heading, VStack } from "@chakra-ui/react";
-import AuthForm from "../components/AuthForm/AuthForm";
+import LoginForm from "../components/LoginForm/LoginForm";
+import RegisterForm from "../components/RegisterForm/RegisterForm";
 
-const AuthPage = () => {
+interface Props {
+  isLogin: boolean;
+}
+
+const AuthPage = ({ isLogin }: Props) => {
   return (
     <VStack
       as="section"
@@ -9,13 +14,13 @@ const AuthPage = () => {
       align="center"
       justify="center"
       alignItems="center"
-      gap="5rem"
+      gap="4rem"
       padding="1.5rem 2rem"
     >
       <Heading size="2xl" sm={{ fontSize: "4xl" }}>
-        Start your journey today!
+        {isLogin ? "Welcome back!" : "Start your journey today!"}
       </Heading>
-      <AuthForm />
+      {isLogin ? <LoginForm /> : <RegisterForm />}
     </VStack>
   );
 };

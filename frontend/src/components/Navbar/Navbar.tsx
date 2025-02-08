@@ -24,9 +24,9 @@ const Navbar = () => {
         </Link>
         <Flex gap="1rem" alignItems="center">
           <Box>
-            <Link to="/signup">
+            <Link to="/login">
               <Button size="sm" variant="solid">
-                Sign Up
+                Login
               </Button>
             </Link>
           </Box>

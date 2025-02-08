@@ -6,7 +6,8 @@ export default function Page() {
   return (
     <Routes>
       <Route path="/" element={<Navbar />}>
-        <Route path="/signup" element={<AuthPage />} />
+        <Route path="/login" element={<AuthPage isLogin />} />
+        <Route path="/register" element={<AuthPage isLogin={false} />} />
       </Route>
     </Routes>
   );
