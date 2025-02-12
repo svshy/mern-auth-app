@@ -18,10 +18,12 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "envalid": "^8.0.0",
     "express": "^4.21.2",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.7"
+    "mongoose": "^8.9.7",
+    "resend": "^4.1.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
