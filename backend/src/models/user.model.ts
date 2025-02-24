@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { validateEmail, validatePassword } from "../util/validators";
 import createHttpError from "http-errors";
-import { hashValue } from "../util/bcrypt";
+import { compareValue, hashValue } from "../util/bcrypt";
 
 export interface UserDocument extends Document {
   login: string;
@@ -10,6 +10,7 @@ export interface UserDocument extends Document {
   isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
+  comparePassword(password: string): Promise<boolean>;
 }
 
 const userSchema = new mongoose.Schema<UserDocument>(
@@ -45,7 +46,9 @@ const userSchema = new mongoose.Schema<UserDocument>(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password")) {
+    return next();
+  }
 
   if (!validatePassword(this.password)) {
     return next(
@@ -59,6 +62,10 @@ userSchema.pre("save", async function (next) {
 
   return next();
 });
+
+userSchema.methods.comparePassword = async function (val: string) {
+  return compareValue(val, this.password);
+};
 
 const UserModel = mongoose.model<UserDocument>("User", userSchema);
 export default UserModel;

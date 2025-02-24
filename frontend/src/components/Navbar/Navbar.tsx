@@ -1,7 +1,7 @@
 import { Box, Flex, Button, Icon, HStack } from "@chakra-ui/react";
 import { ColorModeToggle } from "../ColorModeToggle";
 import { RiQuillPenFill } from "react-icons/ri";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -35,7 +35,6 @@ const Navbar = () => {
           </Box>
         </Flex>
       </HStack>
-      <Outlet />
     </>
   );
 };

@@ -6,4 +6,6 @@ export default cleanEnv(process.env, {
   MONGO_URI: str(),
   APP_ORIGIN: str(),
   RESEND_API_KEY: str(),
+  JWT_REFRESH_TOKEN_SECRET: str(),
+  JWT_ACCESS_TOKEN_SECRET: str(),
 });

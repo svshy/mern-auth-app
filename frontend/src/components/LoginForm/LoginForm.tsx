@@ -1,11 +1,4 @@
-import {
-  Button,
-  HStack,
-  Stack,
-  Separator,
-  Text,
-  Link as ChakraLink,
-} from "@chakra-ui/react";
+import { Button, Stack, Link as ChakraLink, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FormPasswordField } from "../ui/FormPasswordField/FormPasswordField";
 import { LuUser } from "react-icons/lu";
@@ -37,6 +30,9 @@ const LoginForm = () => {
           placeholder="Type your login"
           register={register}
           name="login"
+          registerOptions={{
+            required: "Login is required.",
+          }}
         />
         <FormPasswordField
           label="Password"
@@ -45,19 +41,21 @@ const LoginForm = () => {
           fieldName={"password"}
           fieldPlaceholder="Type your password"
           register={register}
+          registerOptions={{
+            required: "Password is required.",
+          }}
         />
-        <Button type="submit">Login</Button>
-        <HStack>
-          <Separator flex="1" />
-          <Text flexShrink="0">or</Text>
-          <Separator flex="1" />
-        </HStack>
-        <Text alignSelf="center">
-          Don't have an account?{" "}
-          <ChakraLink asChild variant="underline" fontWeight="bold">
-            <Link to="/register">Register now!</Link>
+        <VStack alignItems="flex-end">
+          <ChakraLink asChild fontSize="sm">
+            <Link to="/forgot-password">Forgot password?</Link>
           </ChakraLink>
-        </Text>
+          <ChakraLink asChild fontSize="sm">
+            <Link to="/resend-verification">
+              Activation email not received?
+            </Link>
+          </ChakraLink>
+        </VStack>
+        <Button type="submit">Login</Button>
       </Stack>
     </form>
   );

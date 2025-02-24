@@ -1,6 +1,9 @@
 import { Resend } from "resend";
 import env from "../util/envalidEnv";
-import { getVerifyEmailHTMLTemplate } from "./emailTemplates";
+import {
+  getResetPasswordHTMLTemplate,
+  getVerifyEmailHTMLTemplate,
+} from "./emailTemplates";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
@@ -22,9 +25,17 @@ const sendMail = async ({ to, subject, text, html }: Params) => {
 };
 
 export const sendVerifyAccountEmail = async (email: string, token: string) => {
-  const verificationUrl = `${env.APP_ORIGIN}/api/auth/verify-account?token=${token}`;
+  const verificationUrl = `${env.APP_ORIGIN}/verify-account/${token}`;
   await sendMail({
     to: email,
     ...getVerifyEmailHTMLTemplate(verificationUrl),
+  });
+};
+
+export const sendResetPasswordEmail = async (email: string, token: string) => {
+  const resetPasswordUrl = `${env.APP_ORIGIN}/reset-password/${token}`;
+  await sendMail({
+    to: email,
+    ...getResetPasswordHTMLTemplate(resetPasswordUrl),
   });
 };
