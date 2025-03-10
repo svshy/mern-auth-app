@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Layout from "./layout/Layout";
 import VerifyAccountPage from "./pages/VerifyAccountPage";
 import LoginPage from "./pages/LoginPage";
@@ -7,8 +7,11 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import { Toaster } from "./components/ui/Toaster/Toaster";
 import ResendActivationPage from "./pages/ResendActivationPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import globalRouter from "./utils/globalRouter";
 
 export default function Page() {
+  const navigate = useNavigate();
+  globalRouter.navigate = navigate;
   return (
     <>
       <Toaster />

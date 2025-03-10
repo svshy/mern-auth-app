@@ -4,6 +4,11 @@ export interface CreateAccountBody {
   email: string;
 }
 
+export interface LogInBody {
+  login: string;
+  password: string;
+}
+
 export interface IsUserUniqueBody {
   login?: string;
   email?: string;

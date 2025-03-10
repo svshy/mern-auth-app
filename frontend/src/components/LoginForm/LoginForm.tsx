@@ -4,6 +4,7 @@ import { FormPasswordField } from "../ui/FormPasswordField/FormPasswordField";
 import { LuUser } from "react-icons/lu";
 import FormTextField from "../ui/FormTextField/FormTextField";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 interface FormValues {
   login: string;
@@ -17,7 +18,9 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const { loginReq } = useAuth();
+
+  const onSubmit = handleSubmit((data) => loginReq(data));
 
   return (
     <form onSubmit={onSubmit}>

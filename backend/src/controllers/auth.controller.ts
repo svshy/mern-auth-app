@@ -12,8 +12,7 @@ import { fifteenMinutesBeforeNow } from "../util/date";
 import ResetPasswordModel from "../models/resetPassword.model";
 import { hashValue } from "../util/bcrypt";
 import { validatePassword } from "../util/validators";
-import { signAccessToken, signRefreshToken } from "../util/jwt";
-import { setAuthCookies } from "../util/cookies";
+import { email } from "envalid";
 
 interface SignUpBody {
   login: string;
@@ -349,22 +348,60 @@ export const loginHandler: RequestHandler<
 > = async (req, res, next) => {
   const { login, password } = req.body;
 
-  const user = await UserModel.findOne({ login: login });
-
-  if (!user) {
-    return next(createHttpError(401, "Invalid credentials"));
+  if (!login || !password) {
+    return next(createHttpError(400, "No login or password provided."));
   }
+  try {
+    const user = await UserModel.findOne({ login: login });
 
-  const isPasswordValid = await user.comparePassword(password);
+    if (!user) {
+      return next(createHttpError(401, "Invalid credentials"));
+    }
 
-  if (!isPasswordValid) {
-    return next(createHttpError(401, "Invalid credentials"));
+    const isPasswordValid = await user.comparePassword(password);
+
+    if (!isPasswordValid) {
+      return next(createHttpError(401, "Invalid credentials"));
+    }
+
+    if (!user.isVerified) {
+      return next(
+        createHttpError(
+          401,
+          "The account is not verified. Activate it and try to log in again."
+        )
+      );
+    }
+
+    req.session.userId = user._id;
+    res.status(200).json({
+      id: user._id,
+      login: user.login,
+      email: user.email,
+    });
+  } catch (error) {
+    next(error);
   }
+};
 
-  const accessToken = signAccessToken(user._id);
-  const refreshToken = signRefreshToken(user._id);
+export const logoutHandler: RequestHandler = (req, res, next) => {
+  req.session.destroy((error) => {
+    if (error) {
+      next(error);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+};
 
-  setAuthCookies({ res, accessToken, refreshToken })
-    .status(200)
-    .json({ message: "Login successful" });
+export const checkAuthHandler: RequestHandler = (req, res, next) => {
+  if (req.session.userId) {
+    res.status(200).json({
+      message: true,
+    });
+  } else {
+    res.status(200).json({
+      message: false,
+    });
+  }
 };

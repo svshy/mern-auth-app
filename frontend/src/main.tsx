@@ -6,17 +6,20 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./config/queryClient";
+import { AuthProvider } from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider value={defaultSystem}>
+    <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class" disableTransitionOnChange>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ThemeProvider>
+        <AuthProvider>
+          <ChakraProvider value={defaultSystem}>
+            <ThemeProvider attribute="class" disableTransitionOnChange>
+              <App />
+            </ThemeProvider>
+          </ChakraProvider>
+        </AuthProvider>
       </QueryClientProvider>
-    </ChakraProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 );

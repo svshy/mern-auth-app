@@ -4,6 +4,7 @@ import createHttpError from "http-errors";
 import { compareValue, hashValue } from "../util/bcrypt";
 
 export interface UserDocument extends Document {
+  _id: mongoose.Types.ObjectId;
   login: string;
   email: string;
   password: string;

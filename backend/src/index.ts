@@ -7,6 +7,9 @@ import { errorHandler } from "./middlewares/errorHandler";
 import createHttpError from "http-errors";
 import cors from "cors";
 import env from "./util/envalidEnv";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import userRoutes from "./routes/user.route";
 
 const app = express();
 app.use(express.json());
@@ -18,6 +21,22 @@ app.use(
 );
 app.use(cookieParser());
 
+app.use(
+  session({
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+      mongoUrl: env.MONGO_URI,
+    }),
+  })
+);
+
+app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 
 app.use((req, res, next) => {
