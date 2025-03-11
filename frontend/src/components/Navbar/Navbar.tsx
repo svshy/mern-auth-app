@@ -3,13 +3,21 @@ import { ColorModeToggle } from "../ColorModeToggle";
 import { RiQuillPenFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "../ui/Menu/Menu";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuSeparator,
+  MenuTrigger,
+} from "../ui/Menu/Menu";
 import { Avatar } from "../ui/Avatar/Avatar";
 import { useRef } from "react";
+import { LuLogOut } from "react-icons/lu";
 
 const Navbar = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, logoutReq, user, isLoading } = useAuth();
   const ref = useRef<HTMLDivElement | null>(null);
+
   return (
     <>
       <HStack
@@ -43,9 +51,9 @@ const Navbar = () => {
                   <MenuTrigger as="button" all="unset" cursor="pointer">
                     <Avatar
                       ref={ref}
-                      name="Esther"
+                      name={user?.login}
                       size="sm"
-                      colorPalette="teal"
+                      colorPalette="cyan"
                       variant="solid"
                       mr="3"
                     />
@@ -54,17 +62,16 @@ const Navbar = () => {
                     <MenuItem value="new-txt-a" cursor="pointer">
                       New Text File
                     </MenuItem>
-                    <MenuItem value="new-file-a" cursor="pointer">
-                      New File...
-                    </MenuItem>
-                    <MenuItem value="new-win-a" cursor="pointer">
-                      New Window
-                    </MenuItem>
-                    <MenuItem value="open-file-a" cursor="pointer">
-                      Open File...
-                    </MenuItem>
-                    <MenuItem value="export-a" cursor="pointer">
-                      Export
+                    <MenuSeparator />
+                    <MenuItem
+                      color="fg.error"
+                      _hover={{ bg: "bg.error", color: "fg.error" }}
+                      value="logOut"
+                      cursor="pointer"
+                      onClick={() => logoutReq()}
+                    >
+                      <LuLogOut />
+                      <Box flex="1">Log out</Box>
                     </MenuItem>
                   </MenuContent>
                 </MenuRoot>

@@ -43,7 +43,7 @@ const RegisterForm = ({ createAccount, isPending }: Props) => {
             },
             validate: async (value) => {
               const result = await validateField({ login: value });
-              return result.data.isUnique || "Login already taken";
+              return result.isUnique || "Login already taken";
             },
           }}
         />
@@ -63,7 +63,7 @@ const RegisterForm = ({ createAccount, isPending }: Props) => {
             },
             validate: async (value) => {
               const result = await validateField({ email: value });
-              return result.data.isUnique || "Email already taken";
+              return result.isUnique || "Email already taken";
             },
           }}
         />

@@ -16,8 +16,8 @@ const createAccount = async (data: CreateAccountBody) => {
   return apiClient.post("/auth/register", data);
 };
 
-const isUserUnique = async (data: IsUserUniqueBody) => {
-  return apiClient.post<IsUserUniqueRes>("/auth/is-user-unique", data);
+const isUserUnique = async (data: IsUserUniqueBody): Promise<IsUserUniqueRes> => {
+  return apiClient.post("/auth/is-user-unique", data);
 };
 
 const verifyAccount = async (token: string) => {

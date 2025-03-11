@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: isAuthenticated, isLoading } = useQuery({
+  const { data: isAuthenticated, isFetching: isCheckAuthFetching } = useQuery({
     queryKey: [GET_CHECK_AUTHENTICATED],
     queryFn: () => AuthAPI.checkAuthReq(),
     retry: false,
@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     },
   });
 
-  const { data: user } = useQuery({
+  const { data: user, isFetching: isGetAuthUserFetching } = useQuery({
     queryKey: [GET_AUTHENTICATED_USER],
     queryFn: () => UserAPI.getLoggedInUser(),
     retry: false,
@@ -61,7 +61,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { mutate: logoutReq } = useMutation({
     mutationFn: () => AuthAPI.logout(),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_CHECK_AUTHENTICATED] });
       navigate("/");
+      toaster.create({
+        description: "You have been successfully logged out.",
+        type: "success",
+      });
     },
     onError: (error) => {
       toaster.create({
@@ -74,7 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const value: AuthContextType = {
     user: user || null,
     isAuthenticated: isAuthenticated || false,
-    isLoading,
+    isLoading: isCheckAuthFetching || isGetAuthUserFetching,
     loginReq,
     logoutReq,
   };

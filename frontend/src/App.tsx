@@ -8,29 +8,64 @@ import { Toaster } from "./components/ui/Toaster/Toaster";
 import ResendActivationPage from "./pages/ResendActivationPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import globalRouter from "./utils/globalRouter";
+import AnonymousRoute from "./routes/AnonymousRoute";
 
 export default function Page() {
   const navigate = useNavigate();
   globalRouter.navigate = navigate;
+
   return (
     <>
       <Toaster />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/login"
+            element={
+              <AnonymousRoute>
+                <LoginPage />
+              </AnonymousRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AnonymousRoute>
+                <RegisterPage />
+              </AnonymousRoute>
+            }
+          />
           <Route
             path="/verify-account/:token"
-            element={<VerifyAccountPage />}
+            element={
+              <AnonymousRoute>
+                <VerifyAccountPage />
+              </AnonymousRoute>
+            }
           />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/forgot-password"
+            element={
+              <AnonymousRoute>
+                <ForgotPasswordPage />
+              </AnonymousRoute>
+            }
+          />
           <Route
             path="/resend-verification"
-            element={<ResendActivationPage />}
+            element={
+              <AnonymousRoute>
+                <ResendActivationPage />
+              </AnonymousRoute>
+            }
           />
           <Route
             path="/reset-password/:token"
-            element={<ResetPasswordPage />}
+            element={
+              <AnonymousRoute>
+                <ResetPasswordPage />
+              </AnonymousRoute>
+            }
           />
         </Route>
       </Routes>
