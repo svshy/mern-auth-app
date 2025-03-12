@@ -55,7 +55,6 @@ const Navbar = () => {
                       size="sm"
                       colorPalette="cyan"
                       variant="solid"
-                      mr="3"
                     />
                   </MenuTrigger>
                   <MenuContent>

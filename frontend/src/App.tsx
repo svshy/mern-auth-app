@@ -9,6 +9,7 @@ import ResendActivationPage from "./pages/ResendActivationPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import globalRouter from "./utils/globalRouter";
 import AnonymousRoute from "./routes/AnonymousRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function Page() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function Page() {
       <Toaster />
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route path="*" element={<NotFoundPage />} />
           <Route
             path="/login"
             element={

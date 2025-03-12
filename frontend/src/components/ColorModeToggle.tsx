@@ -12,8 +12,13 @@ export function ColorModeToggle() {
       size="sm"
       aria-label="toggle color mode"
       onClick={toggleColorMode}
+      variant="ghost"
     >
-      {theme === "light" ? <LuMoon /> : <LuSun />}
+      {theme === "light" ? (
+        <LuMoon onClick={toggleColorMode} />
+      ) : (
+        <LuSun onClick={toggleColorMode} />
+      )}
     </IconButton>
   );
 }
