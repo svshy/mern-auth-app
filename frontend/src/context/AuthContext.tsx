@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { mutate: loginReq } = useMutation({
     mutationFn: (data: LogInBody) => AuthAPI.login(data),
     onSuccess: () => {
-      navigate("/");
+      navigate("/login-info");
       queryClient.invalidateQueries({ queryKey: [GET_CHECK_AUTHENTICATED] });
     },
     onError: (error) => {

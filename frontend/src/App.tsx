@@ -10,6 +10,8 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import globalRouter from "./utils/globalRouter";
 import AnonymousRoute from "./routes/AnonymousRoute";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import LoginInfoPage from "./pages/LoginInfoPage";
 
 export default function Page() {
   const navigate = useNavigate();
@@ -20,6 +22,14 @@ export default function Page() {
       <Toaster />
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route
+            path="/login-info"
+            element={
+              <ProtectedRoute>
+                <LoginInfoPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
           <Route
             path="/login"
